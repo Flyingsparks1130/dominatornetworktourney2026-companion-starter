@@ -23,6 +23,11 @@ jobs:
           python-version: '3.12'
       - name: Test the importer, replay decoder and organizer rules
         run: python -m unittest discover -s tests -v
+      - name: Check companion compatibility and approved results
+        run: |
+          node tests/test_companion.cjs
+          node tests/test_companion_client.cjs
+          node scripts/companion_bridge.cjs check
       - name: Build the index, published statistics and static site
         run: |
           python scripts/tournament_engine.py build
@@ -38,14 +43,14 @@ jobs:
           node tests/test_award_telemetry.js
           node tests/test_tournament_statistics.cjs
       - name: Configure Pages
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && vars.PUBLISH_PAGES == 'true'
         uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && vars.PUBLISH_PAGES == 'true'
         with:
           path: _site
   deploy:
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && vars.PUBLISH_PAGES == 'true'
     needs: build
     runs-on: ubuntu-latest
     permissions:

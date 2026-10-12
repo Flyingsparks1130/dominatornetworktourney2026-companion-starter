@@ -28,13 +28,17 @@ When publication is authorized, the companion's GitHub target can be:
 | Field | Value |
 | --- | --- |
 | Owner | `Flyingsparks1130` |
-| Repository | `dominatornetworktourney2026` |
+| Repository | `dominatornetworktourney2026-companion-starter` |
 | Branch | The review branch first; `main` only when ready for live publication |
 | File | `data/companion/approved-results.json` |
 
 These values are documented, not installed into the running companion. No token is included. Approval in the desk and its separate publication confirmation remain required. The companion writes the same complete JSON snapshot this page consumes, so no format conversion is needed. A GitHub push must still pass the site's build before Pages updates. A review-branch push alone does not deploy Pages.
 
 No fake feed is committed: the first valid publication creates the file with the real tournament ID. The companion and local staging command refuse to overwrite a feed belonging to another event. For a new event, select a new results path and update the connection settings deliberately.
+
+## Enable the copied website when ready
+
+This repository is an independent copy. Its Actions checks build and validate every update, while deployment is off by default. When website publication is authorized, choose **GitHub Actions** under this repository's **Settings → Pages**, add the Actions variable `PUBLISH_PAGES` with value `true`, and run **Build and publish tournament** on `main`. This publishes the copied site separately; it does not update the original tournament site. Until then, use the local preview.
 
 ## Local staging and build
 
